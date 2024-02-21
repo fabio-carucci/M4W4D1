@@ -14,7 +14,7 @@ Il tuo obiettivo è di creare un finto e-commerce con le funzionalità di gestio
   "name": "3310 cellphone", // OBBLIGATORIO
   "description": "An unforgettable icon.", // OBBLIGATORIO
   "brand": "Nokia", // OBBLIGATORIO
-  "imageUrl": "https: //bit.ly/3CExjRa", // OBBLIGATORIO
+  "imageUrl": "https://bit.ly/3CExjRa", // OBBLIGATORIO
   "price": 100, // OBBLIGATORIO
   "userId": "admin", // GENERATO DAL SERVER
   "createdAt": "2021-09-19T09:32:10.5352", // GENERATO DAL SERVER
