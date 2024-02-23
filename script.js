@@ -1,4 +1,4 @@
-const APIurl = "https://striveschool-api.herokuapp.com/api/product/"
+const APIurl = "https://striveschool-api.herokuapp.com/api/product"
 
 const APIkey = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWQ0YmE1ZDljNDM3MDAwMTkzYzM2MzAiLCJpYXQiOjE3MDg0NDAxNTcsImV4cCI6MTcwOTY0OTc1N30.rWrEFaPzRm9S2wd-FZRpE3kEugjSugUg2ZcL4pzPJjs"
 
@@ -141,12 +141,13 @@ function createTemplates ({_id, name, description, brand, imageUrl, price}) {
     cardBody.appendChild(cardPrice);
     cardBody.appendChild(cardButtons);
 
-    let editButton = document.createElement("button");
+    let editButton = document.createElement("a");
     editButton.classList.add("btn", "btn-warning");
     editButton.innerText = "MODIFICA";
-    // Inserire addEventListener per funzione di edit
+    editButton.href = `detail.html?pid=${_id}`;
+    editButton.target = "_blanket"
 
-    let deleteButton = document.createElement("button");
+    let deleteButton = document.createElement("a");
     deleteButton.classList.add("btn", "btn-danger");
     deleteButton.innerText = "ELIMINA";
     deleteButton.dataset.productId = _id;
