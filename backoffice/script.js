@@ -12,6 +12,10 @@ const inputDescription = document.getElementById("inputDescription");
 
 window.onload = getProducts();
 
+window.addEventListener('focus', () => {
+    getProducts();
+});
+
 // Function that shows every product 
 
 async function getProducts() {
@@ -25,7 +29,6 @@ async function getProducts() {
         })
 
         const json = await res.json();
-        console.log(json);
 
         productBox.innerHTML = "";
         json.forEach(product => {
@@ -34,6 +37,72 @@ async function getProducts() {
 
     } catch (error) {
         console.error('Errore durante la richiesta:', error);
+    }
+}
+
+// Function that add a product 
+
+async function addProducts(event) {
+    event.preventDefault();
+
+    if (!(inputName.value && inputBrand.value && inputURL.value && inputPrice.value && inputDescription.value)) {
+        alert("Per favore, riempi tutti i campi.");
+        return;
+    }
+
+    let product = {};
+    product["name"] = inputName.value;
+    product["brand"] = inputBrand.value;
+    product["imageUrl"] = inputURL.value;
+    product["price"] = inputPrice.value;
+    product["description"] = inputDescription.value;
+
+    try {
+        const res = await fetch(APIurl, {
+            method: 'POST',
+            headers: {
+                'Authorization': APIkey,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(product)
+        })
+
+        inputName.value = "";
+        inputBrand.value = "";
+        inputURL.value = "";
+        inputPrice.value = "";
+        inputDescription.value = "";
+
+        getProducts();
+
+
+    } catch (error) {
+        console.error('Errore durante la richiesta:', error);
+    }
+}
+
+// Function that delete a product 
+
+async function deleteProduct(productId) {
+    let userConfirmed = window.confirm("Confermi di voler cancellare il prodotto?");
+
+    if (userConfirmed) {
+        try {
+            const res = await fetch(`${APIurl}/${productId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': APIkey,
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            getProducts();
+
+        } catch (error) {
+            console.error('Errore durante la richiesta:', error);
+        }
+    } else {
+        console.log('Cancellazione annullata.');
     }
 }
 
@@ -73,9 +142,9 @@ function createTemplates ({_id, name, description, brand, imageUrl, price}) {
 
     let titleContainer = document.createElement("a");
     titleContainer.classList.add("card-title-container")
-    titleContainer.href = `detail.html?pid=${_id}`;
     titleContainer.style.cursor = "pointer";
     titleContainer.style.textDecoration = "none";
+    titleContainer.href = `backoffice-detail.html?pid=${_id}`;
 
     cardBody.appendChild(titleContainer);
 
@@ -100,6 +169,29 @@ function createTemplates ({_id, name, description, brand, imageUrl, price}) {
     cardBody.appendChild(cardBrand);
     cardBody.appendChild(cardDescription);
     cardBody.appendChild(cardPrice);
+
+    let editButton = document.createElement("a");
+    editButton.classList.add("btn", "btn-warning", "me-2");
+    editButton.innerText = "MODIFICA";
+    editButton.href = `backoffice-detail.html?pid=${_id}`;
+    editButton.target = "_blanket"
+
+    let cardButtons = document.createElement("div");
+    cardButtons.classList.add("card-buttons", "mt-2", "text-center");
+
+    cardContainer.appendChild(cardButtons);
+
+    let deleteButton = document.createElement("a");
+    deleteButton.classList.add("btn", "btn-danger");
+    deleteButton.innerText = "ELIMINA";
+    deleteButton.dataset.productId = _id;
+    deleteButton.addEventListener("click", (e) => {
+        let productId = e.target.getAttribute('data-product-id');
+        deleteProduct(productId);
+    });
+
+    cardButtons.appendChild(editButton);
+    cardButtons.appendChild(deleteButton);
 
     productBox.appendChild(cardContainer);
 }
