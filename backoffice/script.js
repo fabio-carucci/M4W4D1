@@ -143,7 +143,7 @@ function createTemplates ({_id, name, description, brand, imageUrl, price}) {
     let titleContainer = document.createElement("a");
     titleContainer.classList.add("card-title-container")
     titleContainer.style.cursor = "pointer";
-    titleContainer.style.textDecoration = "none";
+    titleContainer.style.color = "#3498db";
     titleContainer.href = `backoffice-detail.html?pid=${_id}`;
 
     cardBody.appendChild(titleContainer);

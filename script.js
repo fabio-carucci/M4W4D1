@@ -75,7 +75,7 @@ function createTemplates ({_id, name, description, brand, imageUrl, price}) {
     titleContainer.classList.add("card-title-container")
     titleContainer.href = `detail.html?pid=${_id}`;
     titleContainer.style.cursor = "pointer";
-    titleContainer.style.textDecoration = "none";
+    titleContainer.style.color = "#3498db";
 
     cardBody.appendChild(titleContainer);
 
